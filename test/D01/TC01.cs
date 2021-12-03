@@ -1,7 +1,7 @@
-using Xunit;
 using aoc.D01;
+using Xunit;
 
-namespace aoc.test
+namespace aoc.test.D01
 {
   public class TC01
   {
