@@ -40,5 +40,38 @@ namespace aoc.test.D02
       Assert.Equal(expected, actual);
     }
 
+    [Fact]
+    public void InitialII()
+    {
+      int expected = 900;
+      var input = new Instruction[] { new Instruction() { Direction = Direction.Forward, StepSize = 5 },
+                                      new Instruction() { Direction = Direction.Down, StepSize = 5 },
+                                      new Instruction() { Direction = Direction.Forward, StepSize = 8 },
+                                      new Instruction() { Direction = Direction.Up, StepSize = 3 },
+                                      new Instruction() { Direction = Direction.Down, StepSize = 8 },
+                                      new Instruction() { Direction = Direction.Forward, StepSize = 2 } };
+
+      _submarine = new Submarine(input);
+      _submarine.ExecuteII();
+
+      var actual = _submarine.Position * _submarine.Depth;
+
+      Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void PartII()
+    {
+      int expected = 1727785422;
+      var input = Parser.Parse(@"./D02/input.txt");
+
+      _submarine = new Submarine(input);
+      _submarine.ExecuteII();
+
+      var actual = _submarine.Position * _submarine.Depth;
+
+      Assert.Equal(expected, actual);
+    }
+
   }
 }
