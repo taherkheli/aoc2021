@@ -5,12 +5,10 @@ namespace aoc.D03
   public class Diagnostics
   {
     private string[] _codes;
-    private int _lineCount;
 
     public Diagnostics(string[] codes)
     {
       _codes = codes;
-      _lineCount = _codes.Length;
     }
 
     public int Process() 
@@ -23,8 +21,8 @@ namespace aoc.D03
 
       for (int i = 0; i < iterations; i++)
       {
-        ones = CountOnes(i);
-        zeroes = _lineCount - ones;
+        ones = CountOnes(i, _codes.ToList());
+        zeroes = _codes.Length - ones;
 
         if (ones > zeroes)
         {
@@ -44,18 +42,80 @@ namespace aoc.D03
       return gammaRate * epsilonRate;
     }
 
-    //given an array of strings, and an index, count ones in that 'column'
-    private int CountOnes(int index)
+    public int ProcessII()
+    {
+      int ones = 0;
+      int zeroes = 0;
+      int iterations = _codes[0].Length;
+
+      var o2Generator_list = _codes.ToList<String>();
+      var co2Scrubber_list = _codes.ToList<String>();
+
+      for (int i = 0; i < iterations; i++)
+      {
+        ones = CountOnes(i, o2Generator_list);
+        zeroes = o2Generator_list.Count - ones;
+
+        if (ones >= zeroes)
+        {
+          if (o2Generator_list.Count > 1)
+            KeepOnes(i, o2Generator_list);
+        }
+        else
+        {
+          if (o2Generator_list.Count > 1)
+            KeepZeroes(i, o2Generator_list);
+        }
+      }
+
+      for (int i = 0; i < iterations; i++)
+      {
+        ones = CountOnes(i, co2Scrubber_list);
+        zeroes = co2Scrubber_list.Count - ones;
+
+        if (ones >= zeroes)
+        {
+          if (co2Scrubber_list.Count > 1)
+            KeepZeroes(i, co2Scrubber_list);
+        }
+        else
+        {
+          if (co2Scrubber_list.Count > 1)
+            KeepOnes(i, co2Scrubber_list);
+        }
+      }
+
+      int o2Generator = Convert.ToInt32(Convert.ToInt32(o2Generator_list[0], 2).ToString());
+      int co2Scrubber = Convert.ToInt32(Convert.ToInt32(co2Scrubber_list[0], 2).ToString());
+
+      return o2Generator * co2Scrubber;
+    }
+
+    private int CountOnes(int index, List<string> list)
     {
       int ones = 0;
 
-      for (int i = 0; i < _lineCount; i++)
+      for (int i = 0; i < list.Count; i++)
       {
-        if (Int32.Parse((_codes[i][index]).ToString()) > 0)
+        if (Int32.Parse((list[i][index]).ToString()) > 0)
           ones++;
       }
 
       return ones;
+    }
+
+    //given a list of strings, and an index, remove an item if it has a Zero in that 'column'
+    private void KeepOnes(int index, List<string> list)
+    {
+      if (list.Count > 1)
+        list.RemoveAll(s => Int32.Parse(s[index].ToString()) < 1);      
+    }
+
+    //given a list of strings, and an index, remove an item if it has a One in that 'column'
+    private void KeepZeroes(int index, List<string> list)
+    {
+      if (list.Count > 1)
+        list.RemoveAll(s => Int32.Parse(s[index].ToString()) > 0);
     }
   }
 }
