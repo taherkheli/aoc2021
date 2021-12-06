@@ -10,29 +10,9 @@ namespace aoc.test.D04
     {
       int expected = 4512;
       var (numbers, boards) = Parser.Parse(@"./D04/input_initial.txt");
-      int actual = -1;
-      int count = 1;
-      bool winFound = false;
+      var bingo = new Bingo(numbers, boards);
 
-      foreach (var n in numbers)
-      {
-        foreach (var b in boards)
-        {
-          b.Update(n);
-
-          if (b.HasWon)
-          {
-            actual = b.Score;
-            winFound = true;
-            break;
-          }
-        }
-
-        if (winFound)
-          break;    
-
-        count++;
-      }
+      int actual =bingo.PartI();
 
       Assert.Equal(expected, actual);
     }
@@ -42,29 +22,36 @@ namespace aoc.test.D04
     {
       int expected = 31424;
       var (numbers, boards) = Parser.Parse(@"./D04/input.txt");
-      int actual = -1;
-      int count = 1;
-      bool winFound = false;
 
-      foreach (var n in numbers)
-      {
-        foreach (var b in boards)
-        {
-          b.Update(n);
+      var bingo = new Bingo(numbers, boards);
 
-          if (b.HasWon)
-          {
-            actual = b.Score;
-            winFound = true;
-            break;
-          }
-        }
+      int actual = bingo.PartI();
+      
+      Assert.Equal(expected, actual);
+    }
 
-        if (winFound)
-          break;
+    [Fact]
+    public void InitialII()
+    {
+      int expected = 1924;
+      var (numbers, boards) = Parser.Parse(@"./D04/input_initial.txt");
 
-        count++;
-      }
+      var bingo = new Bingo(numbers, boards);
+
+      int actual = bingo.PartII();
+
+      Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void PartII()
+    {
+      int expected = 23042;
+      var (numbers, boards) = Parser.Parse(@"./D04/input.txt");
+
+      var bingo = new Bingo(numbers, boards);
+
+      int actual = bingo.PartII();
 
       Assert.Equal(expected, actual);
     }

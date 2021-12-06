@@ -3,18 +3,18 @@
   public class Board
   {
     private List<List<Point>> _points;
-    private bool _hasWon;
     private int _score;
+    private int _wins;
 
     public Board(List<List<Point>> points)
     {
       _points = points;
-      _hasWon = false;
       _score = 0;
+      _wins = 0;
     }
 
-    public bool HasWon { get { return _hasWon; } }
     public int Score { get { return _score; } }
+    public int Wins { get { return _wins; } }
 
     public void Update(int num)
     {
@@ -33,8 +33,8 @@
 
       if (CheckRowWin() || CheckColumnWin())
       {
-        _hasWon = true;
         _score = num * SumOfUnmarkedNumbers();
+        _wins++;
       }     
     }
 
